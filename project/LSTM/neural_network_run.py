@@ -19,25 +19,7 @@ class NeuralNetwork():
                  training_set_length=3,
                  scaler = 'mm',
                  **kwargs):
-        """
-        :param training_set_dir: directory contains the training set files. File format: 76.csv
-        :param model_save_dir: directory to receive trained model and model weights. File format: model-76.json/model-weight-76.h5
-        :param model_file_prefix='model': file prefix for model file
-        :param training_set_range=(0, np.Inf): enterprise ids in this range (a, b) would be analyzed. PS: a must be less than b
-        :param training_set_length=3: first kth columns in training set file will be used as training set and the following one is expected value
-        :param train_test_ratio=3: the ratio of training set size to test set size when splitting input data
-        :param output_dir=".": output directory for prediction files
-        :param scaler: scale data set using - mm: MinMaxScaler, norm: NormalDistributionScaler
-        :param **kwargs: lstm_output_dim=4: output dimension of LSTM layer;
-                        activation_lstm='relu': activation function for LSTM layers;
-                        activation_dense='relu': activation function for Dense layer;
-                        activation_last='softmax': activation function for last layer;
-                        drop_out=0.2: fraction of input units to drop;
-                        np_epoch=25, the number of epoches to train the model. epoch is one forward pass and one backward pass of all the training examples;
-                        batch_size=100: number of samples per gradient update. The higher the batch size, the more memory space you'll need;
-                        loss='categorical_crossentropy': loss function;
-                        optimizer='rmsprop'
-        """
+        
         self.training_set_dir = training_set_dir
         self.model_save_dir = model_save_dir
         self.model_file_prefix = model_file_prefix
@@ -64,15 +46,7 @@ class NeuralNetwork():
 
 
     def NN_model_train(self, trainX, trainY, testX, testY, model_save_path):
-        """
-        :param trainX: training data set
-        :param trainY: expect value of training data
-        :param testX: test data set
-        :param testY: expect value of test data
-        :param model_save_path: h5 file to store the trained model
-        :param override: override existing models
-        :return: model after training
-        """
+        
         input_dim = trainX[0].shape[1]
         output_dim = trainY.shape[1]
         # print predefined parameters of current model:
@@ -117,10 +91,7 @@ class NeuralNetwork():
 
 
     def model_train_predict_test(self, input_file_regx="^(\d+)\.csv", override=False):
-        """
-        :param override=Fasle: rerun the model prediction no matter if the expected output file exists
-        :return: model file, model weights files, prediction file, discrepancy statistic bar plot file
-        """
+        
         # get training sets for lstm training
         print ("Scanning files within select id range ...")
         ids, files = get_ids_and_files_in_dir(inputdir=self.training_set_dir,

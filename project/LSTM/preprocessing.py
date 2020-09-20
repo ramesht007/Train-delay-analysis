@@ -7,15 +7,7 @@ from scipy.stats import binned_statistic
 
 
 def read_df_from_mysql_db(localhost, username, password, dbname, tbname, fields, enterprise_id=None, chunksize=None, enter_field=None, time_field=None, start_time=None, end_time=None):
-    """ We use pd.read_sql as df extraction tools and pymysql is the default mysql connect engine
-    :param tbname: table name in mysql. It could a string or a list of string
-    :param fields: fields in mysql table that will be extracted. It could be a string or a list of string.
-    :param enterprise_id: If specified, only data of these enterprises will be retrieved.
-    :param chunksize: if this parameter is specified, then function will return an generator yielding df with chunk size rows each time
-    :param enter_field: field in mysql define the the enterprise id
-    :param time_field: field in mysql table define the time field. Necessary when enterprise_id is specified.
-    :param start_time: used defined time period range. Only data within it will be extracted
-    """
+    
     connect_string = "mysql+pymysql://{}:{}@{}/{}".format(username, password, localhost, dbname)
     con = create_engine(connect_string)
     time_cond = ""
@@ -123,11 +115,7 @@ def NormalDistributionScaler(df, start_col_index, end_col_index):
 
 
 def get_ids_and_files_in_dir(inputdir, range, input_file_regx="^(\d+)\.csv"):
-    """
-    :param range: tuple like (0, 100)
-    :param input_file_regx: input file format for regular expression
-    :return: enterprise ids and file paths list
-    """
+    
     ids, files = [], []
     for file in os.listdir(inputdir):
         pattern_match = re.match(input_file_regx, file)
@@ -140,11 +128,7 @@ def get_ids_and_files_in_dir(inputdir, range, input_file_regx="^(\d+)\.csv"):
 
 
 def binning_date_y(df, y_col=-1, n_group=5):
-    """
-    binning date into given numbers of groups
-    :param y_col: column index of y in df. Default is the last one
-    :param n_group: number of bin groups
-    """
+    
     date_y = np.asarray(df.ix[:, y_col])
     bin_percentile_width = 100 / n_group
     # get bin boundary list. To make every group have similar number of samples, we use percentiles to determine the delimiter between bins
